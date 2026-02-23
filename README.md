@@ -1,2 +1,12 @@
 # jenkins
-how to install jenkins blueocean
+how to install jenkins blueocean:
+
+*first build your image:*
+docker build -t myjenkins-blueocean:2.414.2 .
+docker network create jenkins
+
+*run your docker image(linux):*
+docker run --name jenkins-blueocean --restart=on-failure -d \
+  --network jenkins --env DOCKER_HOST=tcp://docker:2376 \
+  --env DOCKER_CERT_PATH=/certs/client --env DOCKER_TLS_VERIFY=1 \
+  -p 8080:8080 -p 50000:50000 -v jenkins-data:/var/jenkins_home -v jenkins-docker-certs:/certs/client:ro myjenkins-blueocean:2.414.2
